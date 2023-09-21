@@ -7,8 +7,13 @@ class DataLoader:
         self.dir = dir
         self.tree = ET.parse(dir)
         self.root = self.tree.getroot()
-        self.label = ['left_eyelid', 'right_center', 'left_center', 'right_iris', 'left_iris', 'right_eyelid']
+        self.label = ['right_eyelid', 'left_eyelid',  'right_iris', 'left_iris', 'right_center', 'left_center']
     
+    def setDir(self, Dir):
+        self.dir = Dir
+        self.tree = ET.parse(self.dir)
+        self.root = self.tree.getroot()
+
     # return list[dict] that contains every information in XML
     # flag : if True, It will travel XML Tree finding annotations else image meta data as default
     def travelXML(self, flag=0):
@@ -32,22 +37,26 @@ class DataLoader:
                     tmp_dict = {}
                     tmp_dict["id"] = anno_id
                     tmp_dict["image_id"] = child.get("id")
-            
+
                     # 시선 중앙값 -> 이걸 어떻게 쓰지 
-                    if data.tag == "points":
-                        tmp = data.get("points").split(",")
+                    # if data.tag == "points":
+                    #     tmp = data.get("points").split(",")
+
                     #segmentation
                     if data.tag == "polygon":
-                        seg = float(data.get("points").replace(";", " "))
                         px = []
                         py = []
-                        for i in range(seg):
-                            px.append(seg[i]) if i%2 == 0 else py.append(seg[i])
+                        seg_tmp = []
+                        seg = data.get("points").replace(";", " ").replace(",", " ").split(" ")
+                        
+                        for i in range(len(seg)):
+                            px.append(float(seg[i])) if i%2 == 0 else py.append(float(seg[i]))
+                            seg_tmp.append(float(seg[i]))
 
                         tmp_dict["bbox"] = [np.min(px), np.min(py), np.max(px), np.max(py)]
                         # tmp_dict["bbox_mode"] = BoxMode.XYXY_ABS | 얘는 Detectron 다운 받고 해야됨
                         tmp_dict["category_id"] = self.label.index(data.get("label"))
-                        tmp_dict["segmentation"] = seg
+                        tmp_dict["segmentation"] = seg_tmp
 
                     anno_id += 1
                     dict_list.append(tmp_dict)
@@ -66,3 +75,5 @@ class DataLoader:
         data_dict[2]["annotations"].append(tmp_dict)
 
         return data_dict
+    
+    

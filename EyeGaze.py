@@ -7,8 +7,8 @@ img_root = "New_Sample/원천데이터/TS_G1_1"
 manager = module.tool4laod(img_root)
 loader = DataLoader(xml_dir)
 
-print(manager.lookforF(0))
+img_folder = manager.lookforF(0)
 
-# print(loader.travelXML(1))
+print(loader.travelXML(1))
 # json_dict = loader.CustomData()
 # print(json_dict)
