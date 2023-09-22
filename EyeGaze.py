@@ -11,7 +11,6 @@ loader = DataLoader(xml)
 
 img_folders = manager.lookforF(False)
 
-
 for Dir in img_folders:
     for dist in dists:
         tmp = Dir + "/" + dist + "/RGB/"

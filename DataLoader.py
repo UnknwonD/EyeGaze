@@ -72,7 +72,7 @@ class DataLoader:
         for Dir in dir_list:
             self.setDir(Dir)
             tmp_dict = self.travelXML(0)
-            data_dict[1]["images"].append(tmp_dict) # 접근 방법
+            data_dict[1]["images"].append(tmp_dict)
         
         for Dir in dir_list:
             self.setDir(Dir)

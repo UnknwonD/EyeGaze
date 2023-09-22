@@ -1,5 +1,5 @@
 import os
-import cv2
+import shutil
 
 # Find Items from Dir
 # Return : List of Item's Location if Flag True or return file name
@@ -42,7 +42,11 @@ class tool4laod:
             return imgs
 
     # 최초 한 번만 실행, 이미지를 모두 한 폴더로 옮겨주는 역할 수행
-    def __moveData(self):
-        pass
+    def __moveData(self, file_list, from_dir, to_dir):
+        src = from_dir
+        dest = to_dir
+
+        for file in file_list:
+            shutil.move(src + "/" + file, dest + "/" + file)
 
 
