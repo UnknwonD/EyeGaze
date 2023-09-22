@@ -62,17 +62,22 @@ class DataLoader:
                     dict_list.append(tmp_dict)
         return dict_list    
                 
-    def CustomData(self):
+    def CustomData(self, dir_list):
         data_dict = [{"info": {"description" : "project_Gaze"}}]
         data_dict.append({"images" : []})
         data_dict.append({"annotations" : []})
 
         tmp_dict = {}
-        tmp_dict = self.travelXML(0)
-        data_dict[1]["images"].append(tmp_dict) # 접근 방법
-
-        tmp_dict = self.travelXML(1)
-        data_dict[2]["annotations"].append(tmp_dict)
+        
+        for Dir in dir_list:
+            self.setDir(Dir)
+            tmp_dict = self.travelXML(0)
+            data_dict[1]["images"].append(tmp_dict) # 접근 방법
+        
+        for Dir in dir_list:
+            self.setDir(Dir)
+            tmp_dict = self.travelXML(1)
+            data_dict[2]["annotations"].append(tmp_dict)
 
         return data_dict
     
