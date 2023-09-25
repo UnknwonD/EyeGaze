@@ -16,6 +16,15 @@ def findDir(Dir, flag=True):
         if "." in file_list[0] and ".jpg" not in file_list[0]:
             file_list.remove(".DS_Store")
         return file_list
+    
+# 최초 한 번만 실행, 이미지를 모두 한 폴더로 옮겨주는 역할 수행
+def moveData(file_list, from_dir, to_dir):
+    src = from_dir
+    dest = to_dir
+
+    for file in file_list:
+        shutil.move(src + "/" + file, dest + "/" + file)
+
 
 class tool4laod:
     def __init__(self, Dir):
@@ -40,13 +49,4 @@ class tool4laod:
                 # imgs.append(findDir(self.root + "/" + folder))
                 imgs.append(folder)
             return imgs
-
-    # 최초 한 번만 실행, 이미지를 모두 한 폴더로 옮겨주는 역할 수행
-    def __moveData(self, file_list, from_dir, to_dir):
-        src = from_dir
-        dest = to_dir
-
-        for file in file_list:
-            shutil.move(src + "/" + file, dest + "/" + file)
-
 

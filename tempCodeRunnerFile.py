@@ -1,1 +1,2 @@
-print(manager.lookforF()) # 이미지의 이름을 모두 불러옴
+
+# print(json_dict[1]["images"])
