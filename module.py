@@ -25,6 +25,21 @@ def moveData(file_list, from_dir, to_dir):
     for file in file_list:
         shutil.move(src + "/" + file, dest + "/" + file)
 
+def ConbineData(person, dists, xml_dir, img_dir):
+    # 이렇게 하니까, 이미지 고유 id의 희소성이 사라짐..
+    manager = tool4laod("root")
+    tmp_xml = []
+    tmp_img = []
+    for p in person:
+        for dist in dists:
+            manager.setDir(f"New_Sample/원천데이터/TS_G1_1/{p}/{dist}/RGB/")
+            tmp_img.append(manager.lookforF(0)) # 이미지의 경로를 모두 불러옴
+            tmp_xml.append(f"New_Sample/라벨링데이터/TL/U/{p}/{dist}/NIA_EYE_U1_{p}_{dist}_RGB.xml")
+
+    xml_dir = tmp_xml
+    img_dir = tmp_img
+    
+
 
 class tool4laod:
     def __init__(self, Dir):

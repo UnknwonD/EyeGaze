@@ -1,6 +1,6 @@
 import numpy as np
 import xml.etree.ElementTree as ET
-# from detectron2.structures import BoxMode
+from detectron2.structures import BoxMode
 
 class DataLoader:
     def __init__(self, dir) -> None:
@@ -16,14 +16,15 @@ class DataLoader:
 
     # return list[dict] that contains every information in XML
     # flag : if True, It will travel XML Tree finding annotations else image meta data as default
-    def travelXML(self, flag=0):
+    def travelXML(self, img_dir, flag=0):
         dict_list = []
         anno_id = 0
 
-        for child in self.root:
+        for idx, child in enumerate(self.root):
             if not flag:
                 tmp_dict = {}
-                tmp_dict["file_name"] = child.get("name")
+                # tmp_dict["file_name"] = child.get("name")
+                tmp_dict["file_name"] = img_dir[idx]
                 # img -> 1280 * 72o
                 tmp_dict["height"] = child.get("height")
                 tmp_dict["width"] = child.get("width")
@@ -54,7 +55,7 @@ class DataLoader:
                             seg_tmp.append(float(seg[i]))
 
                         tmp_dict["bbox"] = [np.min(px), np.min(py), np.max(px), np.max(py)]
-                        # tmp_dict["bbox_mode"] = BoxMode.XYXY_ABS | 얘는 Detectron 다운 받고 해야됨
+                        tmp_dict["bbox_mode"] = BoxMode.XYXY_ABS
                         tmp_dict["category_id"] = self.label.index(data.get("label"))
                         tmp_dict["segmentation"] = seg_tmp
 
@@ -62,21 +63,21 @@ class DataLoader:
                     dict_list.append(tmp_dict)
         return dict_list    
                 
-    def CustomData(self, dir_list):
+    def CustomData(self, img_dir, xml_dir):
         data_dict = [{"info": {"description" : "project_Gaze"}}]
         data_dict.append({"images" : []})
         data_dict.append({"annotations" : []})
 
         tmp_dict = {}
         
-        for Dir in dir_list:
+        for Dir in xml_dir:
             self.setDir(Dir)
-            tmp_dict = self.travelXML(0)
+            tmp_dict = self.travelXML(img_dir, 0)
             data_dict[1]["images"].append(tmp_dict)
         
-        for Dir in dir_list:
+        for Dir in xml_dir:
             self.setDir(Dir)
-            tmp_dict = self.travelXML(1)
+            tmp_dict = self.travelXML(img_dir, 1)
             data_dict[2]["annotations"].append(tmp_dict)
 
         return data_dict
