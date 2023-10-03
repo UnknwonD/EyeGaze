@@ -7,3 +7,7 @@ save_EyeGaze.py
 __pycache__
 tmp.py
 label.json
+torchvision
+model
+output_dir
+test_1.png

@@ -8,14 +8,14 @@ class DataLoader:
         self.dir = dir
         self.tree = ET.parse(dir)
         self.root = self.tree.getroot()
-        self.label = ['dump', 'right_eyelid', 'left_eyelid', 'right_iris', 'left_iris', 'right_center', 'left_center']
+        self.label = ['right_eyelid', 'left_eyelid', 'right_iris', 'left_iris', 'right_center', 'left_center']
 
     def setDir(self, Dir):
         self.dir = Dir
         self.tree = ET.parse(self.dir)
         self.root = self.tree.getroot()
 
-    def travelXML(self, img_dir):
+    def travelXML(self, img_dir, comp):
         dataset_dicts = []
 
         for child in self.root:
@@ -23,6 +23,8 @@ class DataLoader:
             
             if child.get("name") is not None:
                 filename = os.path.join(img_dir, child.get("name"))
+                if child.get("name") not in comp:
+                    continue
                 height = int(child.get("height"))
                 width = int(child.get("width"))
                 img_id = int(child.get("id"))
@@ -55,6 +57,6 @@ class DataLoader:
                 
         return dataset_dicts
     
-    def CustomData(self, img_dir, xml_dir):
+    def CustomData(self, img_dir, xml_dir, comp):
         self.setDir(xml_dir)
-        return self.travelXML(img_dir)
+        return self.travelXML(img_dir, comp)
