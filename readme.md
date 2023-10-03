@@ -14,7 +14,17 @@
 
 ## 🚀 Getting Started
 
-requirements.txt를 참고해주세요
+- [How to Downoload Detectron2 on M1](https://velog.io/@huttzza/m1-detectron2-%EC%84%A4%EC%B9%98)
+<pre>
+ pip install -r requirements.txt
+</pre>
+
+| Library | Version |
+|---------|-------------|
+| `pyhton` | 3.8 |
+| `detectron2` | 0.6 |
+| `torch` | 1.12.1 |
+| `Pillow` | 9.4.0 |
 
 ## 🤝 Contributing
 
