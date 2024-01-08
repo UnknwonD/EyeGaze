@@ -15,9 +15,6 @@
 ## 🚀 Getting Started
 
 - [How to Downoload Detectron2 on M1](https://velog.io/@huttzza/m1-detectron2-%EC%84%A4%EC%B9%98)
-<pre>
- pip install -r requirements.txt
-</pre>
 
 | Library | Version |
 |---------|-------------|
